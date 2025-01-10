@@ -1,0 +1,19 @@
+{
+    "Select a corpus": {
+        "en": "Select a corpus",
+        "fr": "Sélectionnez un corpus"
+    },
+
+    "Descripteur" : {
+        "en": "Descriptor",
+        "fr": "Descripteur"
+    },
+    "Enter your custom text here" : {
+        "en": "Enter your custom text here : ",
+        "fr": "Entrer votre texte ici : "
+    },
+    "Chosen document": {
+        "en": "Chosen document: {idx}",
+        "fr": "Document choisie : {idx}"
+    }
+}
