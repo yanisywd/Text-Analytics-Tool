@@ -1,7 +1,6 @@
 # Fonctionnalités
 
 - **Recherche de texte (toutes combinaisons confondues)**
-- **Streaming intelligent**
 - **Calcul de similarité en utilisant les méthodes de vectorisation (Word2Vec, FastText)**
 - **Implémentation de 2 chatbots** :
   - Chatbot avec Word2Vec et TF-IDF
@@ -30,68 +29,7 @@ L'application permet de :
 
 Pour le calcul de similarité, plusieurs descripteurs et distances sont disponibles (tous ceux vus en cours). Ces fonctionnalités sont implémentées à l'aide de multiples fonctions présentes dans le code.
 
----
 
-## Streaming Intelligent
-
-Le système de **streaming intelligent** fonctionne en évaluant plusieurs méthodes de stemming pour sélectionner la plus adaptée.  
-
-### Étapes détaillées :
-
-1. **Entrées** :
-   - `Q` : Le texte ou la phrase ("quoi chercher").
-   - `C` : Le texte ou corpus ("où chercher").
-
-2. **Lemmatisation** :
-   - SpaCy est utilisé pour créer une version lemmatisée de `Q` et `C` :
-     - `Q_lemma = lemmatize(Q)`
-     - `C_lemma = lemmatize(C)`
-
-3. **Stemming** :
-   - Application de trois algorithmes de stemming sur `Q` :
-     - `Q_stem_Porter = stem_Porter(Q)`
-     - `Q_stem_Lancaster = stem_Lancaster(Q)`
-     - `Q_stem_Snowball = stem_Snowball(Q)`
-
-4. **Similarité TF-IDF** :
-   - Calcul de la similarité entre chaque version stemmée et la version lemmatisée :
-     ```
-     similarity_S = (Q_lemma * Q_stem_S) / (|Q_lemma| * |Q_stem_S|)
-     ```
-     Où :
-     - `*` : Produit scalaire des vecteurs TF-IDF.
-     - `|x|` : Norme (longueur) du vecteur.
-
-5. **Ratio de Réduction** :
-   - Calcul du ratio de réduction pour chaque méthode :
-     ```
-     reduction_ratio_S = len(Q_stem_S) / len(Q)
-     ```
-   - Pénalité appliquée si le ratio est hors de l'intervalle `[0.5, 0.9]` :
-     ```
-     adjusted_similarity_S = similarity_S * 0.8 (si reduction_ratio_S < 0.5 ou > 0.9)
-     adjusted_similarity_S = similarity_S (sinon)
-     ```
-
-6. **Comparaison avec le texte cible** :
-   - Comparaison de chaque version stemmée avec `C_lemma` :
-     ```
-     context_similarity_S = (Q_stem_S * C_lemma) / (|Q_stem_S| * |C_lemma|)
-     ```
-
-7. **Score Final** :
-   - Calcul du score final pour chaque méthode de stemming :
-     ```
-     final_score_S = 0.5 * adjusted_similarity_S + 0.5 * context_similarity_S
-     ```
-
-8. **Sélection de la Meilleure Méthode** :
-   - La méthode avec le score final le plus élevé est choisie :
-     ```
-     best_stemmer = max(final_score_S)
-     ```
-
----
 
 ## Calcul de Similarité en Utilisant les Méthodes de Vectorisation (Word2Vec, FastText)
 
